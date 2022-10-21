@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+    <%- include ('template/head') %>
+    <%- include ('template/header') %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+</head>
+<body>
+
+    <div id="container">
+        <div id="home">
+            <div class="row">
+                <div id="info" class="col-sm-4   col-sm-offset-2">
+                 <div id="h1">코로나바이러스감염증-19</div>
+                 2019년 12월 중국 우한에서 처음 발생한 이후 중국 전역과 전 세계로 확산된, 새로운 유형의 코로나바이러스(SARS-CoV-2)에 의한 호흡기 감염질환이다. 코로나바이러스감염증-19는 감염자의 비말(침방울)이 호흡기나 눈·코·입의 점막으로 침투될 때 전염된다. 감염되면 약 2~14일(추정)의 잠복기를 거친 뒤 발열(37.5도) 및 기침이나 호흡곤란 등 호흡기 증상, 폐렴이 주증상으로 나타나지만 무증상 감염 사례 빈도도 높게 나오고 있다.
+                </div>
+                <div class="col-sm-4">
+                  <img class="home-img" src="../img/doctor.svg">
+                </div>
+
+                <div id="main" class="col-sm-8 col-sm-offset-2">
+
+                    <div id="date"></div>
+                    <div id="form">
+                        <p>확진환자</p>
+                        <span id="totalinfected" style="font-weight: bold;"></span>
+                        <span id="newinfected" style="font-weight: bold;"></span>
+                    </div>
+
+                    <div id="form">
+                        <p>격리해제</p>
+                        <span id="recoveredNum" style="font-weight: bold;"></span>
+                    </div>
+
+                    <div id="form">
+                        <p>사망</p>
+                        <span id="deathNum" style="font-weight: bold;"></span>
+                    </div>
+
+                    <div id="form" style="background-color: rgb(248, 209, 209); color:rgb(211, 57, 57);">
+                        <p>국내발생</p>
+                        <span id="fromdomestic" style="font-weight: bold;"></span>
+                    </div>
+
+                    <div id="form" style="background-color:  rgb(248, 209, 209); color:rgb(211, 57, 57);">
+                        <p>해외유입</p>
+                        <span id="fromforeign" style="font-weight: bold;"></span>
+                    </div>
+                
+                </div>
+
+            </div>
+        </div>
+
+</div>
+</body>
+</html>
+
+
+
+
+  <script>
+    $.ajax({
+      url: "/getCountryData",
+      type: "get",
+      dataType: "json",
+      success: function (data) {
+        var ddata = JSON.parse(data);
+        document.getElementById("totalinfected").innerHTML = ddata.korea.totalCase;
+        document.getElementById("newinfected").innerHTML = "(+"+ddata.korea.newCase+")"
+        document.getElementById("recoveredNum").innerHTML = ddata.korea.recovered;
+        document.getElementById("deathNum").innerHTML = ddata.korea.death;
+        document.getElementById("fromforeign").innerHTML = ddata.korea.newFcase;
+        document.getElementById("fromdomestic").innerHTML = ddata.korea.newCcase;
+      }
+    });
+
+    let today=new Date();
+    let month=today.getMonth()+1;
+    let date=today.getDate();
+    document.getElementById("date").innerHTML = month+"월 "+date+"일 국내 현황 ("+month+"."+date+". 00시 기준)";
+  </script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.6">
+    <%- include ('template/head') %>
+    <%- include ('template/header') %>
+    <title>주변 약국,병원</title>
+
+    <!-- Bootstrap core CSS -->
+
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <style>
+        html, body {height:100%; width:100%; padding:0px; margin:0px;  position: fixed; overflow: hidden;}
+        div.relative{ 
+            position:  relative;
+            top : 10%;
+            right : 40%;
+            width : 100%;
+            z-index:6
+        }
+        .sch_smit {
+            width: 60px; height: 50px;
+            margin: 0; border: 1;
+            border-bottom-color : #aaa;
+            vertical-align: top;
+            background: white;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .sch_smit:hover { 
+            background: #B2CCFF;
+        }
+        </style>
+
+    <style>
+        .bd-placeholder-img {
+          font-size: 1.125rem;
+          text-anchor: middle;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+  
+        @media (min-width: 768px) {
+          .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+          }
+        }
+      </style>
+      <!-- Custom styles for this template -->
+
+      <style>
+        .map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;color: #000000;}
+        .map_wrap {position:relative;width:100%;height:100%;}
+        #category {position:absolute;top:150px;left:100px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;z-index: 2;}
+        #category li {float:left;list-style: none;width:50px;border-right:1px solid #acacac;padding:6px 0;text-align: center; cursor: pointer;}
+        #category li.on {background: #eee;}
+        #category li:hover {background: #ffe6e6;border-left:1px solid #acacac;margin-left: -1px;}
+        #category li:last-child{margin-right:0;border-right:0;}
+        #category li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+        #category li .category_bg {background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png) no-repeat;}
+        #category li .bank {background-position: -10px 0;}
+        #category li .mart {background-position: -10px -36px;}
+        #category li .pharmacy {background-position: -10px -72px}
+        #category li .oil {background-position: -10px -108px;}
+        #category li .cafe {background-position: -10px -144px;}
+        #category li .store {background-position: -10px -180px;}
+        #category li.on .category_bg {background-position-x:-46px;}
+        .placeinfo_wrap {position:absolute;bottom:28px;left:-150px;width:300px;}
+        .placeinfo {position:relative;width:100%;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;padding-bottom: 10px;background: #fff;}
+        .placeinfo:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+        .placeinfo_wrap .after {content:'';position:relative;margin-left:-12px;left:50%;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+        .placeinfo a, .placeinfo a:hover, .placeinfo a:active{color:#000000;text-decoration: none;}
+        .placeinfo a, .placeinfo span {display: block;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+        .placeinfo span {margin:5px 5px 0 5px;cursor: default;font-size:13px;}
+        .placeinfo .title {font-weight: bold; font-size:14px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+        .placeinfo .tel {color:#0f7833;}
+        .placeinfo .jibun {color:#000000;font-size:11px;margin-top:0;}
+        </style>
+</head>
+
+<body>
+  <div class="map_wrap">
+    <div id="map" style=" max-width:1800px; width:100%;height:70%;position:relative;overflow:hidden; top:150px; margin:0 auto;"></div>
+    <ul id="category">
+        <li id="HP8" data-order="2"> 
+            <span class="category_bg pharmacy"></span>
+            병원
+        </li> 
+        <li id="PM9" data-order="2"> 
+            <span class="category_bg pharmacy"></span>
+            약국
+        </li> 
+    </ul>
+</div>
+
+
+
+<script type="text/javascript" 
+src="//dapi.kakao.com/v2/maps/sdk.js?appkey=962612367e0b973fc2af8d224f191bc9&libraries=services"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script>
+   var placeOverlay = new kakao.maps.CustomOverlay({zIndex:1}), 
+    contentNode = document.createElement('div'),
+    markers = [], 
+    currCategory = ''; 
+ 
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = {
+        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+        level: 5 // 지도의 확대 레벨
+    };  
+
+  
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+var ps = new kakao.maps.services.Places(map); 
+
+if (navigator.geolocation) {
+	        
+	        navigator.geolocation.getCurrentPosition(function(position) {
+	            
+	            var lat = position.coords.latitude, // 위도
+	                lon = position.coords.longitude; // 경도
+	            
+	            var locPosition = new kakao.maps.LatLng(lat, lon), 
+	                message = '<div style="padding:5px;">현재위치</div>'; 
+	            
+	      
+	            displayMarker(locPosition);
+	                
+	          });
+	        
+	        function displayMarker(locPosition) {
+	        
+	            var marker_present = new kakao.maps.Marker({  
+	                map: map, 
+	                position: locPosition
+	            }); 
+	                
+	            map.setCenter(locPosition);      
+	        }    
+	        
+	    }
+
+kakao.maps.event.addListener(map, 'idle', searchPlaces);
+
+contentNode.className = 'placeinfo_wrap';
+
+addEventHandle(contentNode, 'mousedown', kakao.maps.event.preventMap);
+addEventHandle(contentNode, 'touchstart', kakao.maps.event.preventMap);
+
+placeOverlay.setContent(contentNode);  
+
+addCategoryClickEvent();
+
+function addEventHandle(target, type, callback) {
+    if (target.addEventListener) {
+        target.addEventListener(type, callback);
+    } else {
+        target.attachEvent('on' + type, callback);
+    }
+}
+
+function searchPlaces() {
+    if (!currCategory) {
+        return;
+    }
+    
+    placeOverlay.setMap(null);
+
+    removeMarker();
+    
+    ps.categorySearch(currCategory, placesSearchCB, {useMapBounds:true}); 
+}
+
+
+function placesSearchCB(data, status, pagination) {
+    if (status === kakao.maps.services.Status.OK) {
+        
+        displayPlaces(data);
+    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+        
+    } else if (status === kakao.maps.services.Status.ERROR) {
+        
+    }
+}
+
+function displayPlaces(places) {
+
+
+    var order = document.getElementById(currCategory).getAttribute('data-order');
+
+    
+
+    for ( var i=0; i<places.length; i++ ) {
+
+            var marker = addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order);
+          
+            (function(marker, place) {
+                kakao.maps.event.addListener(marker, 'click', function() {
+                    displayPlaceInfo(place);
+                });
+            })(marker, places[i]);
+    }
+}
+
+function addMarker(position, order) {
+    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png', 
+        imageSize = new kakao.maps.Size(27, 28), 
+        imgOptions =  {
+            spriteSize : new kakao.maps.Size(72, 208), 
+            spriteOrigin : new kakao.maps.Point(46, (order*36)),
+            offset: new kakao.maps.Point(11, 28) 
+        },
+        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+            marker = new kakao.maps.Marker({
+            position: position,
+            image: markerImage 
+        });
+
+    marker.setMap(map);
+    markers.push(marker);
+
+    return marker;
+}
+
+
+function removeMarker() {
+    for ( var i = 0; i < markers.length; i++ ) {
+        markers[i].setMap(null);
+    }   
+    markers = [];
+}
+
+
+function displayPlaceInfo (place) {
+    var content = '<div class="placeinfo">' +
+                    '   <a class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' + place.place_name + '</a>';   
+
+    if (place.road_address_name) {
+        content += '    <span title="' + place.road_address_name + '">' + place.road_address_name + '</span>' +
+                    '  <span class="jibun" title="' + place.address_name + '">(지번 : ' + place.address_name + ')</span>';
+    }  else {
+        content += '    <span title="' + place.address_name + '">' + place.address_name + '</span>';
+    }                
+   
+    content += '    <span class="tel">' + place.phone + '</span>' + 
+                '</div>' + 
+                '<div class="after"></div>';
+
+    contentNode.innerHTML = content;
+    placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
+    placeOverlay.setMap(map);  
+}
+
+
+function addCategoryClickEvent() {
+    var category = document.getElementById('category'),
+        children = category.children;
+
+    for (var i=0; i<children.length; i++) {
+        children[i].onclick = onClickCategory;
+    }
+}
+
+
+function onClickCategory() {
+    var id = this.id,
+        className = this.className;
+
+    placeOverlay.setMap(null);
+
+    if (className === 'on') {
+        currCategory = '';
+        changeCategoryClass();
+        removeMarker();
+    } else {
+        currCategory = id;
+        changeCategoryClass(this);
+        searchPlaces();
+    }
+}
+
+function changeCategoryClass(el) {
+    var category = document.getElementById('category'),
+        children = category.children,
+        i;
+
+    for ( i=0; i<children.length; i++ ) {
+        children[i].className = '';
+    }
+
+    if (el) {
+        el.className = 'on';
+    } 
+} 
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+    <%- include ('template/head') %>
+    <%- include ('template/header') %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+    <style type="text/css">
+        .wrapbox{ width:500px; margin:20px; float: left; margin-left:95px;} 
+        .content{ position:relative; padding-top:56%; width:100%; margin:0 auto;} 
+        iframe{ 
+            position:absolute; 
+            top:0; 
+            left:0; 
+            width:100%; 
+            height:100%;
+            }
+        </style>
+</head>
+    <body class="text-center" style="background:#F9FBFD;">
+        <div id="container">
+        <div class="col-sm-12 col-sm-offset-0">
+        <div style = "padding-top:130px; clear: both; text-align:center">
+        <h1 style="font-size:40px; font-weight: bold;">실시간 뉴스 속보</h1>
+        <div class="wrapbox"> 
+            <div style="text-align:center"><h3>KBS 24시간 실시간 뉴스</h3></div>
+            <div class="content">
+                <iframe src="https://www.youtube.com/embed/DQhfxOrzfzc" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                </iframe>
+             </div>
+        </div>
+        <div class="wrapbox">
+            <div style="text-align:center"><h3>YTN 24시간 실시간 뉴스</h3></div>
+            <div class="content">
+                <iframe src="https://www.youtube.com/embed/6lY6I4cMXxE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                </iframe>
+            </div> 
+        </div>
+
+        <div class="wrapbox">
+            <div style="text-align:center"><h3>중앙방역대책본부 브리핑</h3></div>
+            <div class="content">
+                <iframe src="https://www.youtube.com/embed/Wnsl8s2fgxg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                </iframe>
+            </div> 
+        </div>
+    </div>
+</div>
+
+    <div class="col-sm-5 col-sm-offset-1">
+    <div style = "padding-top:50px; clear: both; text-align:center">
+     <font size="6px">코로나 관련 뉴스 링크</font><br><br>
+    <a href="http://ncov.mohw.go.kr/tcmBoardList.do"target="_blank" class="button"><font size="5px">중앙방역대책본부</a></font>
+    <a href="http://news.kbs.co.kr/special/coronaSpecialMain.html#1"target="_blank" class="button"><font size="5px">KBS</a></font>
+    <br><a href="https://www.yna.co.kr/safe/index?site=navi_safe_depth01"target="_blank" class="button"><font size="5px">연합뉴스</a></font>
+    <a href="https://news.sbs.co.kr/news/newsHotIssueList.do?tagId=10000050973&plink=CORONA&cooper=SBSNEWSMAIN"target="_blank" class="button"><font size="5px">SBS</a></font>
+    <br><a href="https://news.google.com/topics/CAAqIggKIhxDQkFTRHdvSkwyMHZNREZqY0hsNUVnSnJieWdBUAE?hl=ko&gl=KR&ceid=KR%3Ako"target="_blank" class="button"><font size="5px">Google 뉴스</a></font><br><br>
+    </div>
+    </div>
+
+    <div class="col-sm-5 col-sm-offset-0">
+    <div style = "padding-top:50px; clear: both; text-align:center">
+      <font size="6px">코로나 관련 사이트</font><br>
+    <br><font size="5px">국내기관  - </font><a href="http://ncov.mohw.go.kr/index.jsp"target="_blank" class="button"><font size="5px">중앙방역대책본부</a></font>
+    <br><font size="5px">미국 공식기관  - </font><a href="https://www.cdc.gov"target="_blank" class="button"><font size="5px">CDC(미국질병통제예방센터)</a></font>
+    <br><font size="5px">유럽 공식기관  - </font><a href="https://www.ecdc.europa.eu/en"target="_blank" class="button"><font size="5px">ECDC(유럽질병통제예방센터)</a></font>
+    <br><font size="5px">실시간 세계현황  - </font><a href="https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6%20"target="_blank" class="button"><font size="5px">존스홉킨스 CSSE</a></font>
+    <br><font size="5px">세계기관  - </font><a href="https://www.who.int"target="_blank" class="button"><font size="5px"> WHO(세계보건기구)</a></font>
+</div>
+</div>
+</body>
+</html>
